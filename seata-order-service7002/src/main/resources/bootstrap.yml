@@ -44,3 +44,12 @@ management:
 feign:
   hystrix:
     enabled: true
+
+#关闭全局默认的1s超时，设置全局为3s超时
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000

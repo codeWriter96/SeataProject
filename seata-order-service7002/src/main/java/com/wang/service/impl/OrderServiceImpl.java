@@ -10,7 +10,6 @@ import com.wang.service.StorageService;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.LinkedHashMap;
 
 /**
@@ -59,36 +58,55 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean buyGood(Order order) {
         order.setStatus(0);
-        int i = orderDao.insert(order);
-        if (i < 0){
-            throw new RuntimeException("数据库插入错误");
+        //id的返回值在order实体对象内！
+        int res = orderDao.insertGetId(order);
+        if (0 == res) {
+            throw new RuntimeException();
         }
 
         //降级则抛出异常并回滚
         Object object = storageService.updateStorage(order);
-        if (object instanceof CommonResult){
-            throw new RuntimeException("服务被降级");
-        }else {
-            LinkedHashMap updateStorage = (LinkedHashMap)object;
-            assert updateStorage.isEmpty();
-            if (200 != (Integer) updateStorage.get("code")){
-                throw new RuntimeException("库存不足");
-            }
+        if (object instanceof CommonResult) {
+            throw new RuntimeException();
         }
+
+        LinkedHashMap updateStorage = (LinkedHashMap)object;
+
+        if (updateStorage.isEmpty()){
+            throw new RuntimeException();
+        }
+
+        if (200 != (Integer) updateStorage.get("code")){
+            throw new RuntimeException("库存不足");
+        }
+
 
         Object object1 = accountService.updateMoney(order);
-        //降级则抛出异常并回滚
-        if (object1 instanceof CommonResult){
-            throw new RuntimeException("服务被降级");
-        }else {
-
-            LinkedHashMap updateMoney = (LinkedHashMap) object1;
-            //非空断言
-            assert updateMoney.isEmpty();
-            if (200 != (Integer) updateMoney.get("code")){
-                throw new RuntimeException("余额不足");
-            }
+        if (object1 instanceof CommonResult) {
+            throw new RuntimeException();
         }
-        return true;
+        //降级则抛出异常并回滚
+        LinkedHashMap updateMoney = (LinkedHashMap) object1;
+        //非空
+        if (null == updateMoney){
+            throw new RuntimeException();
+        }
+        if (200 != (Integer) updateMoney.get("code")){
+            throw new RuntimeException("余额不足");
+        }
+
+        order.setStatus(1);
+        int i = orderDao.updateByPrimaryKeySelective(order);
+        return i > 0 ;
+
+    }
+
+    @Override
+    public boolean updateByPrimaryKeySelective(Long id, Long userId) {
+        Order order = new Order();
+        order.setId(id);
+        order.setUserId(userId);
+        int i = orderDao.updateByPrimaryKeySelective(order);
+        return i>0;
     }
 }

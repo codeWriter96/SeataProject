@@ -28,15 +28,15 @@ public class StorageController {
     public Object selectByPrimaryKey(@PathVariable("id") Long id){
         if (null==id){
             CommonResult<Object> result = new CommonResult<>(444, MessageConstant.M1, null);
-            log.error(LogConstant.L1, DateUtil.getDate(),id,result.toString());
+            log.error(LogConstant.L2, DateUtil.getDate(),id,result.toString());
             return result;
         }
         Storage storage = storageService.selectByPrimaryKey(id);
         if (null != storage){
-            log.info(LogConstant.L1, DateUtil.getDate(),id,storage.toString());
+            log.info(LogConstant.L2, DateUtil.getDate(),id,storage.toString());
             return new CommonResult<>(200,MessageConstant.M2,storage);
         }
-        log.info(LogConstant.L1, DateUtil.getDate(),id,null);
+        log.info(LogConstant.L2, DateUtil.getDate(),id,null);
         return new CommonResult<Storage>(444,MessageConstant.M3,null);
     }
     @PostMapping("/update")

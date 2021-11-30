@@ -80,4 +80,26 @@ public class OrderController {
         log.info(LogConstant.L2, DateUtil.getDate(),order.toString(),"success");
         return CommonResult.successResult(M1);
     }
+
+
+    /**
+     *
+     * @param id 订单的id
+     * @return 处理结果
+     */
+    @GetMapping("/update/{id}/{userId}")
+    public Object updateByPrimaryKeySelective(@PathVariable("id") Long id,@PathVariable("userId") Long userId){
+        if (null==id || null == userId){
+            log.error(LogConstant.L2, DateUtil.getDate(),id,null);
+            return CommonResult.errorResult(M2);
+        }
+       boolean res = orderService.updateByPrimaryKeySelective(id,userId);
+        if (!res){
+            log.info(LogConstant.L2, DateUtil.getDate(),id,null);
+            return CommonResult.errorResult(M2);
+        }
+        log.info(LogConstant.L2, DateUtil.getDate(),id,res);
+        return CommonResult.successResult(M1,res);
+    }
+
 }

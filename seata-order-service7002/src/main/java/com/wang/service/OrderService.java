@@ -18,4 +18,6 @@ public interface OrderService {
     String selectByPrimaryKey1(Long id);
 
     boolean buyGood(Order order);
+
+    boolean updateByPrimaryKeySelective(Long id, Long userId);
 }

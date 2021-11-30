@@ -7,6 +7,8 @@ public interface OrderDao {
 
     int insert(Order record);
 
+    int insertGetId(Order record);
+
     int insertSelective(Order record);
 
     Order selectByPrimaryKey(Long id);

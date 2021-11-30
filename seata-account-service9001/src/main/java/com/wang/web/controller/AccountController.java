@@ -28,15 +28,15 @@ public class AccountController {
     public Object selectByPrimaryKey(@PathVariable("id") Long id){
         if (null==id){
             CommonResult<Object> result = new CommonResult<>(444, MessageConstant.M1, null);
-            log.error(LogConstant.L1, DateUtil.getDate(),id,result.toString());
+            log.error(LogConstant.L2, DateUtil.getDate(),id,result.toString());
             return result;
         }
         Account account = accountService.selectByPrimaryKey(id);
         if (null != account){
-            log.info(LogConstant.L1, DateUtil.getDate(),id,account.toString());
+            log.info(LogConstant.L2, DateUtil.getDate(),id,account.toString());
             return new CommonResult<Account>(200,MessageConstant.M2,account);
         }
-        log.info(LogConstant.L1, DateUtil.getDate(),id,null);
+        log.info(LogConstant.L2, DateUtil.getDate(),id,null);
         return new CommonResult<Account>(444,MessageConstant.M3,null);
     }
 
