@@ -1,0 +1,6 @@
+com\wang\dao\StorageDao.class
+com\wang\web\controller\StorageController.class
+com\wang\service\impl\StorageServiceImpl.class
+com\wang\StorageMain8001.class
+com\wang\config\DataSourceProxyConfig.class
+com\wang\service\StorageService.class

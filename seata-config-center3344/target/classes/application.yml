@@ -1,0 +1,34 @@
+server:
+  port: 3344
+
+spring:
+  application:
+    name:  seata-config-center #注册进Eureka服务器的微服务名
+  cloud:
+    config:
+      server:
+        native:
+          #不建议写在类路径下
+          search-locations: K:/env
+  profiles:
+    active: native
+  #rabbitmq相关配置
+  rabbitmq:
+    host: 192.168.150.129
+    port: 5672
+    username: admin
+    password: 123
+
+#服务注册到eureka地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.150.128:7001/eureka
+
+#暴露服务端bus刷新配置的端点
+management:
+  endpoints:
+    web:
+      exposure:
+        #双引号
+        include: "bus-refresh"

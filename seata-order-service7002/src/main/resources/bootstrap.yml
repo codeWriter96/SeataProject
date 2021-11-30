@@ -1,0 +1,46 @@
+server:
+  port: 7002
+
+spring:
+  application:
+    name: seata-order-service
+  cloud:
+    #Config客户端配置
+    config:
+      name: application #配置文件名称
+      profile: dev #读取后缀名称   上述3个综合：master分支上config-dev.yml的配置文件被读取http://config-3344.com:3344/master/config-dev.yml
+      uri: http://192.168.150.1:3344 #配置中心地址k
+    alibaba:
+      seata:
+        tx-service-group: my_test_tx_group
+  rabbitmq:
+    host: 192.168.150.129
+    port: 5672
+    username: admin
+    password: 123
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: com.mysql.jdbc.Driver              # mysql驱动包 com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.150.1:3306/seata_order?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+
+#服务注册到eureka地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.150.128:7001/eureka
+
+#暴露客户端刷新、环境的端点
+management:
+  endpoints:
+    web:
+      exposure:
+        #双引号
+        include: "refresh,env"
+
+#开启全局指定超时时间为：默认的1s超时
+feign:
+  hystrix:
+    enabled: true
