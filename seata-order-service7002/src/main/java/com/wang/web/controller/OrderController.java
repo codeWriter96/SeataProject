@@ -29,15 +29,15 @@ public class OrderController {
     @GetMapping("/select/{id}")
     public Object selectByPrimaryKey(@PathVariable("id") Long id){
         if (null==id){
-            log.error(LogConstant.L1, DateUtil.getDate(),id,null);
+            log.error(LogConstant.L2, DateUtil.getDate(),id,null);
             return CommonResult.errorResult(M2);
         }
         Order order = orderService.selectByPrimaryKey(id);
         if (null != order){
-            log.info(LogConstant.L1, DateUtil.getDate(),id,order.toString());
+            log.info(LogConstant.L2, DateUtil.getDate(),id,order.toString());
             return CommonResult.successResult(M1,order);
         }
-        log.info(LogConstant.L1, DateUtil.getDate(),id,null);
+        log.info(LogConstant.L2, DateUtil.getDate(),id,null);
         return CommonResult.errorResult(M2);
     }
 
@@ -69,7 +69,7 @@ public class OrderController {
     @PostMapping("/buy")
     public Object buyGood(@RequestBody Order order){
         if (null == order.getProductId() || null==order.getUserId() || null == order.getCount() || null ==order.getMoney()){
-            log.error(LogConstant.L1, DateUtil.getDate(),order.toString(),"fail");
+            log.error(LogConstant.L2, DateUtil.getDate(),order.toString(),"fail");
             return CommonResult.errorResult(M3);
         }
         boolean res = orderService.buyGood(order);
@@ -77,7 +77,7 @@ public class OrderController {
             log.error(LogConstant.L2, DateUtil.getDate(),order.toString(),null);
             return CommonResult.errorResult(M3);
         }
-        log.info(LogConstant.L1, DateUtil.getDate(),order.toString(),"success");
+        log.info(LogConstant.L2, DateUtil.getDate(),order.toString(),"success");
         return CommonResult.successResult(M1);
     }
 }
