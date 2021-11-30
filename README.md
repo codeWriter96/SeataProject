@@ -11,3 +11,4 @@ a simple sample for seata's AT mode transaction
 - 最后在订单服务中修改订单状态为已完成。
 
 成功实现服务降级、服务出现运行时错误、库存或账户余量不足等情况时进行全局事务回滚！
+![image](https://user-images.githubusercontent.com/86956144/144003691-6d833052-543b-4957-94fa-9580041f75f7.png)
